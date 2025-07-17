@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <title>911직업능력교육원 회계 계정과목 퀴즈!</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      padding: 30px;
+      display: flex;
+      justify-content: center;
+      background: #f3f3f3;
+    }
+    .container {
+      width: 80%;
+      min-width: 400px;
+    }
+    h2 {
+      text-align: left;
+    }
+    .quiz-item {
+      margin-bottom: 30px;
+    }
+    .result {
+      font-weight: bold;
+      margin-top: 8px;
+      font-size: 16px;
+    }
+    input {
+      padding: 5px;
+      width: 60%;
+    }
+    button {
+      display: block;
+      margin: 30px auto;
+      padding: 10px 20px;
+      font-size: 16px;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2>911직업능력교육원 회계 계정과목 퀴즈!</h2>
+    <div id="quiz-area"></div>
+    <button onclick="checkAnswers()">제출</button>
+  </div>
+
+  <script>
+    const questions = [{'q': '영업활동에 사용할 수 있는 한국은행권(지폐, 주화)은?', 'a': '현금'}, {'q': '수표를 발행할 목적으로 예입하는 예금은?', 'a': '당좌예금'}, {'q': '1년 이내 만기가 도래하는 정기예금, 정기적금 등은?', 'a': '단기금융상품'}, {'q': '단기 투자의 목적으로 주식, 사채, 공채 등을 구입하면?', 'a': '단기매매증권'}, {'q': '상품을 외상으로 매출 시 발생하는 채권은?', 'a': '외상매출금'}, {'q': '상품을 매출하고 타인이 발행한 어음을 받으면?', 'a': '받을어음'}, {'q': '1년 이내의 약정기한으로 차용증서를 받고 돈을 빌려주면?', 'a': '단기대여금'}, {'q': '상품 이외 비품, 토지, 건물, 단기매매증권 등을 외상으로 매각하면?', 'a': '미수금'}, {'q': '판매를 목적으로 외부로부터 물품을 매입하면?', 'a': '상품'}, {'q': '상품을 매입하기 위해 계약금을 미리 지급하면?', 'a': '선급금'}, {'q': '점포, 창고, 기숙사, 공장 등을 취득하면?', 'a': '건물'}, {'q': '업무용 책상, 의자, 컴퓨터, 금고 등을 구입하면?', 'a': '비품'}, {'q': '자동차 등의 육상 운반구를 구입하면?', 'a': '차량운반구'}, {'q': '상품을 외상으로 매입 시 발생하는 채무는?', 'a': '외상매입금'}, {'q': '상품을 매입하고 어음을 발행해 주면?', 'a': '지급어음'}, {'q': '상품 이외 비품, 건물, 토지, 단기매매증권 등을 외상으로 구입하면?', 'a': '미지급금'}, {'q': '1년 이내의 약정기한으로 차용증서를 써서 주고 돈을 빌려오면?', 'a': '단기차입금'}, {'q': '상품을 매출하기 위하여 계약금을 미리 받으면?', 'a': '선수금'}, {'q': '상품을 매출하고 생긴 이익금은?', 'a': '상품매출이익'}, {'q': '수수료를 받으면?', 'a': '수수료수익'}, {'q': '수수료를 지급하면?', 'a': '수수료비용'}, {'q': '집세를 받으면?', 'a': '임대료'}, {'q': '집세를 지급하면?', 'a': '임차료'}, {'q': '이자를 받으면?', 'a': '이자수익'}, {'q': '이자를 지급하면?', 'a': '이자비용'}, {'q': '금액이 적은 여러 가지 잡다한 이익은?', 'a': '잡이익'}, {'q': '종업원에게 월급을 주면?', 'a': '급여'}, {'q': '승차권, 택시비 등을 지급하면?', 'a': '여비교통비'}, {'q': '전화요금, 우편요금, 인터넷요금, 엽서대금 등을 지급하면?', 'a': '통신비'}, {'q': '전기료, 수도료, 가스료 등을 납부하면?', 'a': '수도광열비'}, {'q': '장부, 잉크, 필기구 등을 구입하면?', 'a': '소모품비'}, {'q': '건물에 대한 화재보험료, 자동차보험료 등을 지급하면?', 'a': '보험료'}, {'q': '광고에 관련된 비용을 지급하면?', 'a': '광고선전비'}, {'q': '상품을 판매할 때 운임을 지급하면?', 'a': '운반비'}, {'q': '재산세, 자동차세, 상공회의소 회비 등을 지급하면?', 'a': '세금과공과'}, {'q': '건물, 기계장치 등의 수리비를 지급하면?', 'a': '수선비'}, {'q': '신문구독료, 잡지구입비 등 잡다한 비용을 지출시?', 'a': '잡비'}, {'q': '여러 가지 사소한 손실이 발생하면?', 'a': '잡손실'}, {'q': '영업을 개시하고 최초로 투자할 때는?', 'a': '자본금'}, {'q': '기업주가 가져간 금액의 회계기장 중 처리는?', 'a': '인출금'}, {'q': '직원 선물 또는 회식을 시킨 비용은?', 'a': '복리후생비'}, {'q': '거래처 직원 회식 또는 선물을 주면?', 'a': '접대비'}, {'q': '건물, 비품 등을 처분하고 손실이 발생하면?', 'a': '유형자산처분손실'}, {'q': '외상매출금과 받을어음을 합한 계정은?', 'a': '매출채권'}, {'q': '외상매입금과 지급어음을 합한 계정은?', 'a': '매입채무'}, {'q': '주식회사에서 거액의 자금을 증권을 발행하여 장기간 차입한 경우', 'a': '사채'}, {'q': '미지급이자, 미지급임차료, 미지급수수료 등 비용을 지급하지 않았을 때', 'a': '미지급비용'}, {'q': '선수이자, 선수수수료, 선수임대료 등 먼저 받은 수익', 'a': '선수수익'}, {'q': '선급이자, 선급보험료, 선급임차료 등 먼저 지급한 비용', 'a': '선급비용'}, {'q': '미수이자, 미수임대료, 미수수수료 등 아직 받지 못한 수익', 'a': '미수수익'}];
+
+    function shuffle(array) {
+      for (let i = array.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [array[i], array[j]] = [array[j], array[i]];
+      }
+    }
+
+    const quizContainer = document.getElementById("quiz-area");
+    shuffle(questions);
+
+    questions.forEach((item, index) => {
+      const div = document.createElement("div");
+      div.className = "quiz-item";
+      div.innerHTML = `
+        <p>${index + 1}. ${item.q}</p>
+        <input type="text" id="q${index}">
+        <p id="r${index}" class="result"></p>
+      `;
+      quizContainer.appendChild(div);
+    });
+
+    function checkAnswers() {
+      questions.forEach((item, index) => {
+        const input = document.getElementById(`q${index}`).value.trim();
+        const result = document.getElementById(`r${index}`);
+        if (input === item.a) {
+          result.textContent = "⭕";
+          result.style.color = "green";
+        } else {
+          result.textContent = `❌ (정답: ${item.a})`;
+          result.style.color = "red";
+        }
+      });
+    }
+  </script>
+</body>
+</html>
