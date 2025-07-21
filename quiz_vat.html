@@ -3,7 +3,7 @@
 <html lang="ko">
 <head>
     <meta charset="UTF-8">
-    <title>911직업능력교육원 소득세 퀴즈</title>
+    <title>911직업능력교육원 부가가치세 퀴즈</title>
     <style>
         body {
             font-family: sans-serif;
@@ -68,7 +68,7 @@
             }
         }
 
-        function loadQuestions() {
+        function loadQuiz() {
             shuffle(questions);
             const container = document.getElementById("quiz-container");
             container.innerHTML = "";
@@ -77,50 +77,49 @@
                 const qBlock = document.createElement("div");
                 qBlock.className = "question-block";
 
-                const questionText = document.createElement("div");
-                questionText.className = "question";
-                questionText.textContent = (index + 1) + ". " + item.question;
+                const qText = document.createElement("div");
+                qText.className = "question";
+                qText.textContent = (index + 1) + ". " + item.question;
 
-                const inputBox = document.createElement("input");
-                inputBox.type = "text";
-                inputBox.id = "input-" + index;
+                const input = document.createElement("input");
+                input.type = "text";
+                input.id = "input-" + index;
 
-                const resultBox = document.createElement("div");
-                resultBox.className = "result";
-                resultBox.id = "result-" + index;
+                const result = document.createElement("div");
+                result.className = "result";
+                result.id = "result-" + index;
 
-                qBlock.appendChild(questionText);
-                qBlock.appendChild(inputBox);
-                qBlock.appendChild(resultBox);
-
+                qBlock.appendChild(qText);
+                qBlock.appendChild(input);
+                qBlock.appendChild(result);
                 container.appendChild(qBlock);
             });
         }
 
-        function checkAllAnswers() {
+        function checkAnswers() {
             questions.forEach((item, index) => {
-                const input = document.getElementById('input-' + index).value.trim();
-                const result = document.getElementById('result-' + index);
-                if (input === item.answer) {
-                    result.innerHTML = "⭕ 정답입니다!";
+                const userInput = document.getElementById("input-" + index).value.trim();
+                const result = document.getElementById("result-" + index);
+                if (userInput === item.answer) {
+                    result.textContent = "⭕ 정답입니다!";
                     result.style.color = "green";
                 } else {
-                    result.innerHTML = "❌ 틀렸습니다. 정답은: " + item.answer;
+                    result.textContent = "❌ 틀렸습니다. 정답은: " + item.answer;
                     result.style.color = "red";
                 }
             });
         }
 
-        window.onload = loadQuestions;
+        window.onload = loadQuiz;
     </script>
 </head>
 <body>
     <div class="logo">
         <img src="logo.png" alt="로고">
     </div>
-    <h1>911직업능력교육원 소득세 퀴즈!</h1>
+    <h1>911직업능력교육원 부가가치세 퀴즈!</h1>
     <div class="instruction">띄어쓰기 없이 글자수에 맞게 입력하세요!</div>
     <div id="quiz-container"></div>
-    <button onclick="checkAllAnswers()">제출</button>
+    <button onclick="checkAnswers()">제출</button>
 </body>
 </html>
