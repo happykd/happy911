@@ -3,697 +3,124 @@
 <html lang="ko">
 <head>
     <meta charset="UTF-8">
-    <title>911직업능력교육원 원가회계 퀴즈!</title>
+    <title>911직업능력교육원 소득세 퀴즈</title>
     <style>
         body {
-            font-family: 'Arial', sans-serif;
-            padding: 20px;
-            background-color: #f9f9f9;
+            font-family: sans-serif;
+            padding: 40px;
+            background-color: #fdfdfd;
         }
         .logo {
             text-align: center;
-            margin-bottom: 20px;
+            margin-bottom: 30px;
         }
         .logo img {
             height: 100px;
         }
         h1 {
-            color: #000;
             text-align: center;
+            font-size: 32px;
+            font-weight: bold;
         }
-        .quiz-box {
-            background: #fff;
-            border: 2px solid #ccc;
-            border-radius: 10px;
+        .instruction {
+            text-align: center;
+            font-size: 13px;
+            color: red;
+            margin-bottom: 30px;
+        }
+        .question-block {
+            background: #f4f4f4;
             padding: 20px;
-            margin-bottom: 25px;
-            box-shadow: 2px 2px 10px rgba(0,0,0,0.05);
+            margin: 25px 0;
+            border-radius: 10px;
         }
         .question {
             font-weight: bold;
-            font-size: 18px;
+            margin-bottom: 10px;
+            font-size: 16px;
         }
-        .answer-input {
+        input[type="text"] {
             width: 90%;
             padding: 10px;
+            font-size: 15px;
+        }
+        button {
+            margin-top: 30px;
+            padding: 10px 25px;
             font-size: 16px;
-            margin-top: 10px;
-        }
-        .submit-btn {
             display: block;
-            width: 100%;
-            padding: 15px;
-            font-size: 20px;
-            background-color: #007BFF;
-            color: white;
-            border: none;
-            border-radius: 10px;
-            cursor: pointer;
-        }
-        .submit-btn:hover {
-            background-color: #0056b3;
+            margin-left: auto;
+            margin-right: auto;
         }
         .result {
-            font-size: 16px;
             margin-top: 10px;
-        }
-        .correct {
-            color: green;
-            font-weight: bold;
-        }
-        .incorrect {
-            color: red;
+            font-size: 15px;
             font-weight: bold;
         }
     </style>
+    <script>
+        const questions = [{"question": "조업도의 변동에 따라 총액도 비례적으로 변화하는 원가(직접재료비, 직접노무비)(3글자)", "answer": "변동비"}, {"question": "조업도의 변동과 관계없이 총원가가 일정하게 발생하는 원가(임차료, 감가상각비)(3글자)", "answer": "고정비"}, {"question": "고정비와 변동비의 성격을 동시에 갖고 있는 원가(전기요금, 통신요금)(4글자)", "answer": "준변동비"}, {"question": "특정범위의 조업도 내에서는 총원가 일정, 조업도가 그 범위를 벗어나면 총액이 달라짐.(4글자)", "answer": "준고정비"}, {"question": "이미 발생한 원가로서 회수할 수 없는 원가, 미래의 의사결정에 고려하면 안됨.(4글자)", "answer": "매몰원가"}, {"question": "특정 행위의 선택으로 인해 포기해야 하는 것 중 가장 가치가 큰 것(4글자)", "answer": "기회원가"}, {"question": "판매활동과 일반관리활동에서 발생하는 원가로서 제조활동과 직접적인 관련이 없는 원가(5글자)", "answer": "비제조원가"}, {"question": "제품을 제조하기 위하여 소비된 경제적가치의 소비액(4글자)", "answer": "제조원가"}, {"question": "\"직접재료비＋직접노무비\"= ?(4글자)", "answer": "기초원가"}, {"question": "\"직접노무비＋제조간접비\" = ? 전환원가라고도 함(4글자)", "answer": "가공원가"}, {"question": "직접원가와 간접원가는 제품별로 (    )유무에 따라 구분하는 것(5글자)", "answer": "추적가능성"}, {"question": "변동비와 고정비로 구분은 (     )에 따른 분류이다.(4글자)", "answer": "원가행태"}, {"question": "제조기업의 원가계산흐름은 원가요소별계산 → (    )별계산 → 제품별계산이다.(2글자)", "answer": "부문"}, {"question": "\"직접노무비+직접제조경비+제조간접비\" = (      )비용(5글자)", "answer": "당기총제조"}, {"question": " 당기총제조비용에 기초재공품원가를 가산하고 기말재공품원가를 차감하여 산출한 것을 (      )라 하고 재공품계정 대변에서 제품\n계정 차변에 대체한다.(8글자)", "answer": "당기제품제조원가"}, {"question": "\"기초제품재고액＋당기제품제조원가－기말제품재고액\" = ?(4글자)", "answer": "매출원가"}, {"question": "기초제품, 기말제품, (      )은 제조원가명세서에 표시되지 않는다.(4글자)", "answer": "매출원가"}, {"question": "제조간접비(공통원가)를 여러 제품에 배부하는 과정을 무엇이라 하는가?(4글자)", "answer": "원가배분"}, {"question": "괄호안에 주요 원가배부 기준을 적으시오. \n기계감가상각비(사용시간), 전기요금(전기사용량), 수선비(수선횟수), 복리후생비・노무관리・식당・공장인사관리(종업원수), 구매(주문횟수), 건물감가상각비・공장임차료・재산세(     )(2글자)", "answer": "면적"}, {"question": "가장 단순, 보조부문 상호관계 완전무시하는 보조부문 배부 방법은? (      )배부법(2글자)", "answer": "직접"}, {"question": "우선순위, 보조부문 상호관계 일부고려, 배부 끝난 보조부분 원가를 배분하지 않는 보조부문 배부 방법은? (    )배부법(2글자)", "answer": "단계"}, {"question": "보조부문 간 상호관계 완전고려, 정확, 복잡, 시간과 비용 많이 소요되는 보조무문 배부 방법은? (     )배부법(2글자)", "answer": "상호"}, {"question": "(    )배부법-(    )배부법-(    )배부법, 원가배분방법 정확도를 나타내시오(띄어쓰기없이 적으세요)(6글자)", "answer": "상호단계직접"}, {"question": "보조부문원가를 변동원가와 고정원가로 구분하여 각각 다른 배분기준을 적용하여 배분하는 방법은 (       )배분율법이다(2글자)", "answer": "이중"}, {"question": "다품종 소량생산, 주문생산업종, 조선업, 건설업, 기계제조업, 항공기등에 사용되는 원가계산제도는?(6글자)", "answer": "개별원가계산"}, {"question": "예정배부(정상개별원가계산)액의 계산식은? 배부기준 (     )발생액 × 예정배부율(2글자)", "answer": "실제"}, {"question": "(     )계산은 동종의 제품을 연속적으로 대량 생산하는 업종인 방직업, 정유업, 식품가공 업 등에 적합한 원가계산 방법이다.(4글자)", "answer": "종합원가"}, {"question": "원유를 정제하는 경우, 원재료의 특성상 투입원재료가 100% 완제품으로 생산되지 않는다. 공정의 특성상 완성품이 되기 위하여 부피나 무게 등이 줄어드는 등과 같이 원재료의 감소가 이루어지는 것을 말한다.(2글자)", "answer": "감손"}, {"question": "기본원가이면서 전환원가에 해당되는 것은?      (5글자)", "answer": "직접노무비"}, {"question": "원가행태에 따른 분류 중에서 일정한 범위의 조업도내에서는 총원가가 일정하지만 조업도 구간이 달라지면 총액(총원가)이 달라지는 원가를 무엇이라 하는가?(4글자)", "answer": "준고정비"}, {"question": "제조간접비를 배부하는 기준을 정할 때 제조간접비와 제조부문 사이의 (     )관계를 고려하는 것이 가장 합리적이다.(2글자)", "answer": "인과"}, {"question": "종합원가계산에서는 직접재료원가와 (     )로 구분한다.(4글자)", "answer": "가공원가"}, {"question": "생산과정에서 나오는 원재료의 찌꺼기는?(4글자)", "answer": "작업폐물"}, {"question": "선입선출법에서 완성품환산량 구하는 공식은 \"당기완성수량－(    )＋기말재공품환산량\" 이다.(8글자)", "answer": "기초재공품환산량"}, {"question": "\"완성품환산량 ＝ 당기완성수량＋기말재공품환산량\"의 공식은 어떤 원가흐름을 나타내는 것인가?(3글자)", "answer": "평균법"}, {"question": "공손이 정상적인 원인에 의한 경우에는 (    )로 처리한다.(4글자)", "answer": "제조원가"}, {"question": "비정상적인 원인에 의한 공 손인 경우에는 (    )으로 처리한다.(5글자)", "answer": "영업외비용"}, {"question": "재료의 불량, 작업기술의 미숙, 기계의 정비불량 등으로 가공과정에 실패한 불 합격품은?(2글자)", "answer": "공손"}];
+
+        function shuffle(array) {
+            for (let i = array.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [array[i], array[j]] = [array[j], array[i]];
+            }
+        }
+
+        function loadQuestions() {
+            shuffle(questions);
+            const container = document.getElementById("quiz-container");
+            container.innerHTML = "";
+
+            questions.forEach((item, index) => {
+                const qBlock = document.createElement("div");
+                qBlock.className = "question-block";
+
+                const questionText = document.createElement("div");
+                questionText.className = "question";
+                questionText.textContent = (index + 1) + ". " + item.question;
+
+                const inputBox = document.createElement("input");
+                inputBox.type = "text";
+                inputBox.id = "input-" + index;
+
+                const resultBox = document.createElement("div");
+                resultBox.className = "result";
+                resultBox.id = "result-" + index;
+
+                qBlock.appendChild(questionText);
+                qBlock.appendChild(inputBox);
+                qBlock.appendChild(resultBox);
+
+                container.appendChild(qBlock);
+            });
+        }
+
+        function checkAllAnswers() {
+            questions.forEach((item, index) => {
+                const input = document.getElementById('input-' + index).value.trim();
+                const result = document.getElementById('result-' + index);
+                if (input === item.answer) {
+                    result.innerHTML = "⭕ 정답입니다!";
+                    result.style.color = "green";
+                } else {
+                    result.innerHTML = "❌ 틀렸습니다. 정답은: " + item.answer;
+                    result.style.color = "red";
+                }
+            });
+        }
+
+        window.onload = loadQuestions;
+    </script>
 </head>
 <body>
-
-<div class="logo">
-    <img src="logo_911.png" alt="911 로고">
-</div>
-<h1>911직업능력교육원 원가회계 퀴즈!</h1>
-
-<form id="quizForm">
-
-    <div class="quiz-box">
-        <div class="question">1. 조업도의 변동에 따라 총액도 비례적으로 변화하는 원가(직접재료비, 직접노무비)(3글자)</div>
-        <input type="text" class="answer-input" name="q0" />
-        <div id="result0" class="result"></div>
+    <div class="logo">
+        <img src="logo.png" alt="로고">
     </div>
-    
-    <div class="quiz-box">
-        <div class="question">2. 조업도의 변동과 관계없이 총원가가 일정하게 발생하는 원가(임차료, 감가상각비)(3글자)</div>
-        <input type="text" class="answer-input" name="q1" />
-        <div id="result1" class="result"></div>
-    </div>
-    
-    <div class="quiz-box">
-        <div class="question">3. 고정비와 변동비의 성격을 동시에 갖고 있는 원가(전기요금, 통신요금)(4글자)</div>
-        <input type="text" class="answer-input" name="q2" />
-        <div id="result2" class="result"></div>
-    </div>
-    
-    <div class="quiz-box">
-        <div class="question">4. 특정범위의 조업도 내에서는 총원가 일정, 조업도가 그 범위를 벗어나면 총액이 달라짐.(4글자)</div>
-        <input type="text" class="answer-input" name="q3" />
-        <div id="result3" class="result"></div>
-    </div>
-    
-    <div class="quiz-box">
-        <div class="question">5. 이미 발생한 원가로서 회수할 수 없는 원가, 미래의 의사결정에 고려하면 안됨.(4글자)</div>
-        <input type="text" class="answer-input" name="q4" />
-        <div id="result4" class="result"></div>
-    </div>
-    
-    <div class="quiz-box">
-        <div class="question">6. 특정 행위의 선택으로 인해 포기해야 하는 것 중 가장 가치가 큰 것(4글자)</div>
-        <input type="text" class="answer-input" name="q5" />
-        <div id="result5" class="result"></div>
-    </div>
-    
-    <div class="quiz-box">
-        <div class="question">7. 판매활동과 일반관리활동에서 발생하는 원가로서 제조활동과 직접적인 관련이 없는 원가(5글자)</div>
-        <input type="text" class="answer-input" name="q6" />
-        <div id="result6" class="result"></div>
-    </div>
-    
-    <div class="quiz-box">
-        <div class="question">8. 제품을 제조하기 위하여 소비된 경제적가치의 소비액(4글자)</div>
-        <input type="text" class="answer-input" name="q7" />
-        <div id="result7" class="result"></div>
-    </div>
-    
-    <div class="quiz-box">
-        <div class="question">9. "직접재료비＋직접노무비"= ?(4글자)</div>
-        <input type="text" class="answer-input" name="q8" />
-        <div id="result8" class="result"></div>
-    </div>
-    
-    <div class="quiz-box">
-        <div class="question">10. "직접노무비＋제조간접비" = ? 전환원가라고도 함(4글자)</div>
-        <input type="text" class="answer-input" name="q9" />
-        <div id="result9" class="result"></div>
-    </div>
-    
-    <div class="quiz-box">
-        <div class="question">11. 직접원가와 간접원가는 제품별로 (    )유무에 따라 구분하는 것(5글자)</div>
-        <input type="text" class="answer-input" name="q10" />
-        <div id="result10" class="result"></div>
-    </div>
-    
-    <div class="quiz-box">
-        <div class="question">12. 변동비와 고정비로 구분은 (     )에 따른 분류이다.(4글자)</div>
-        <input type="text" class="answer-input" name="q11" />
-        <div id="result11" class="result"></div>
-    </div>
-    
-    <div class="quiz-box">
-        <div class="question">13. 제조기업의 원가계산흐름은 원가요소별계산 → (    )별계산 → 제품별계산이다.(2글자)</div>
-        <input type="text" class="answer-input" name="q12" />
-        <div id="result12" class="result"></div>
-    </div>
-    
-    <div class="quiz-box">
-        <div class="question">14. "직접노무비+직접제조경비+제조간접비" = (      )비용(5글자)</div>
-        <input type="text" class="answer-input" name="q13" />
-        <div id="result13" class="result"></div>
-    </div>
-    
-    <div class="quiz-box">
-        <div class="question">15.  당기총제조비용에 기초재공품원가를 가산하고 기말재공품원가를 차감하여 산출한 것을 (      )라 하고 재공품계정 대변에서 제품
-계정 차변에 대체한다.(8글자)</div>
-        <input type="text" class="answer-input" name="q14" />
-        <div id="result14" class="result"></div>
-    </div>
-    
-    <div class="quiz-box">
-        <div class="question">16. "기초제품재고액＋당기제품제조원가－기말제품재고액" = ?(4글자)</div>
-        <input type="text" class="answer-input" name="q15" />
-        <div id="result15" class="result"></div>
-    </div>
-    
-    <div class="quiz-box">
-        <div class="question">17. 기초제품, 기말제품, (      )은 제조원가명세서에 표시되지 않는다.(4글자)</div>
-        <input type="text" class="answer-input" name="q16" />
-        <div id="result16" class="result"></div>
-    </div>
-    
-    <div class="quiz-box">
-        <div class="question">18. 제조간접비(공통원가)를 여러 제품에 배부하는 과정을 무엇이라 하는가?(4글자)</div>
-        <input type="text" class="answer-input" name="q17" />
-        <div id="result17" class="result"></div>
-    </div>
-    
-    <div class="quiz-box">
-        <div class="question">19. 괄호안에 주요 원가배부 기준을 적으시오. 
-기계감가상각비(사용시간), 전기요금(전기사용량), 수선비(수선횟수), 복리후생비・노무관리・식당・공장인사관리(종업원수), 구매(주문횟수), 건물감가상각비・공장임차료・재산세(     )(2글자)</div>
-        <input type="text" class="answer-input" name="q18" />
-        <div id="result18" class="result"></div>
-    </div>
-    
-    <div class="quiz-box">
-        <div class="question">20. 가장 단순, 보조부문 상호관계 완전무시하는 보조부문 배부 방법은? (      )배부법(2글자)</div>
-        <input type="text" class="answer-input" name="q19" />
-        <div id="result19" class="result"></div>
-    </div>
-    
-    <div class="quiz-box">
-        <div class="question">21. 우선순위, 보조부문 상호관계 일부고려, 배부 끝난 보조부분 원가를 배분하지 않는 보조부문 배부 방법은? (    )배부법(2글자)</div>
-        <input type="text" class="answer-input" name="q20" />
-        <div id="result20" class="result"></div>
-    </div>
-    
-    <div class="quiz-box">
-        <div class="question">22. 보조부문 간 상호관계 완전고려, 정확, 복잡, 시간과 비용 많이 소요되는 보조무문 배부 방법은? (     )배부법(2글자)</div>
-        <input type="text" class="answer-input" name="q21" />
-        <div id="result21" class="result"></div>
-    </div>
-    
-    <div class="quiz-box">
-        <div class="question">23. (    )배부법-(    )배부법-(    )배부법, 원가배분방법 정확도를 나타내시오(띄어쓰기없이 적으세요)(6글자)</div>
-        <input type="text" class="answer-input" name="q22" />
-        <div id="result22" class="result"></div>
-    </div>
-    
-    <div class="quiz-box">
-        <div class="question">24. 보조부문원가를 변동원가와 고정원가로 구분하여 각각 다른 배분기준을 적용하여 배분하는 방법은 (       )배분율법이다(2글자)</div>
-        <input type="text" class="answer-input" name="q23" />
-        <div id="result23" class="result"></div>
-    </div>
-    
-    <div class="quiz-box">
-        <div class="question">25. 다품종 소량생산, 주문생산업종, 조선업, 건설업, 기계제조업, 항공기등에 사용되는 원가계산제도는?(6글자)</div>
-        <input type="text" class="answer-input" name="q24" />
-        <div id="result24" class="result"></div>
-    </div>
-    
-    <div class="quiz-box">
-        <div class="question">26. 예정배부(정상개별원가계산)액의 계산식은? 배부기준 (     )발생액 × 예정배부율(2글자)</div>
-        <input type="text" class="answer-input" name="q25" />
-        <div id="result25" class="result"></div>
-    </div>
-    
-    <div class="quiz-box">
-        <div class="question">27. (     )계산은 동종의 제품을 연속적으로 대량 생산하는 업종인 방직업, 정유업, 식품가공 업 등에 적합한 원가계산 방법이다.(4글자)</div>
-        <input type="text" class="answer-input" name="q26" />
-        <div id="result26" class="result"></div>
-    </div>
-    
-    <div class="quiz-box">
-        <div class="question">28. 원유를 정제하는 경우, 원재료의 특성상 투입원재료가 100% 완제품으로 생산되지 않는다. 공정의 특성상 완성품이 되기 위하여 부피나 무게 등이 줄어드는 등과 같이 원재료의 감소가 이루어지는 것을 말한다.(2글자)</div>
-        <input type="text" class="answer-input" name="q27" />
-        <div id="result27" class="result"></div>
-    </div>
-    
-    <div class="quiz-box">
-        <div class="question">29. 기본원가이면서 전환원가에 해당되는 것은?      (5글자)</div>
-        <input type="text" class="answer-input" name="q28" />
-        <div id="result28" class="result"></div>
-    </div>
-    
-    <div class="quiz-box">
-        <div class="question">30. 원가행태에 따른 분류 중에서 일정한 범위의 조업도내에서는 총원가가 일정하지만 조업도 구간이 달라지면 총액(총원가)이 달라지는 원가를 무엇이라 하는가?(4글자)</div>
-        <input type="text" class="answer-input" name="q29" />
-        <div id="result29" class="result"></div>
-    </div>
-    
-    <div class="quiz-box">
-        <div class="question">31. 제조간접비를 배부하는 기준을 정할 때 제조간접비와 제조부문 사이의 (     )관계를 고려하는 것이 가장 합리적이다.(2글자)</div>
-        <input type="text" class="answer-input" name="q30" />
-        <div id="result30" class="result"></div>
-    </div>
-    
-    <div class="quiz-box">
-        <div class="question">32. 종합원가계산에서는 직접재료원가와 (     )로 구분한다.(4글자)</div>
-        <input type="text" class="answer-input" name="q31" />
-        <div id="result31" class="result"></div>
-    </div>
-    
-    <div class="quiz-box">
-        <div class="question">33. 생산과정에서 나오는 원재료의 찌꺼기는?(4글자)</div>
-        <input type="text" class="answer-input" name="q32" />
-        <div id="result32" class="result"></div>
-    </div>
-    
-    <div class="quiz-box">
-        <div class="question">34. 선입선출법에서 완성품환산량 구하는 공식은 "당기완성수량－(    )＋기말재공품환산량" 이다.(8글자)</div>
-        <input type="text" class="answer-input" name="q33" />
-        <div id="result33" class="result"></div>
-    </div>
-    
-    <div class="quiz-box">
-        <div class="question">35. "완성품환산량 ＝ 당기완성수량＋기말재공품환산량"의 공식은 어떤 원가흐름을 나타내는 것인가?(3글자)</div>
-        <input type="text" class="answer-input" name="q34" />
-        <div id="result34" class="result"></div>
-    </div>
-    
-    <div class="quiz-box">
-        <div class="question">36. 공손이 정상적인 원인에 의한 경우에는 (    )로 처리한다.(4글자)</div>
-        <input type="text" class="answer-input" name="q35" />
-        <div id="result35" class="result"></div>
-    </div>
-    
-    <div class="quiz-box">
-        <div class="question">37. 비정상적인 원인에 의한 공 손인 경우에는 (    )으로 처리한다.(5글자)</div>
-        <input type="text" class="answer-input" name="q36" />
-        <div id="result36" class="result"></div>
-    </div>
-    
-    <div class="quiz-box">
-        <div class="question">38. 재료의 불량, 작업기술의 미숙, 기계의 정비불량 등으로 가공과정에 실패한 불 합격품은?(2글자)</div>
-        <input type="text" class="answer-input" name="q37" />
-        <div id="result37" class="result"></div>
-    </div>
-    
-    <button type="button" class="submit-btn" onclick="gradeQuiz()">제출</button>
-</form>
-
-<script>
-    function gradeQuiz() {
-
-        let ans0 = document.getElementsByName("q0")[0].value.trim();
-        let result0 = document.getElementById("result0");
-        if (ans0 === "변동비") {
-            result0.innerHTML = "O 정답입니다!";
-            result0.className = "result correct";
-        } else {
-            result0.innerHTML = "X 틀렸습니다. 정답: 변동비";
-            result0.className = "result incorrect";
-        }
-    
-        let ans1 = document.getElementsByName("q1")[0].value.trim();
-        let result1 = document.getElementById("result1");
-        if (ans1 === "고정비") {
-            result1.innerHTML = "O 정답입니다!";
-            result1.className = "result correct";
-        } else {
-            result1.innerHTML = "X 틀렸습니다. 정답: 고정비";
-            result1.className = "result incorrect";
-        }
-    
-        let ans2 = document.getElementsByName("q2")[0].value.trim();
-        let result2 = document.getElementById("result2");
-        if (ans2 === "준변동비") {
-            result2.innerHTML = "O 정답입니다!";
-            result2.className = "result correct";
-        } else {
-            result2.innerHTML = "X 틀렸습니다. 정답: 준변동비";
-            result2.className = "result incorrect";
-        }
-    
-        let ans3 = document.getElementsByName("q3")[0].value.trim();
-        let result3 = document.getElementById("result3");
-        if (ans3 === "준고정비") {
-            result3.innerHTML = "O 정답입니다!";
-            result3.className = "result correct";
-        } else {
-            result3.innerHTML = "X 틀렸습니다. 정답: 준고정비";
-            result3.className = "result incorrect";
-        }
-    
-        let ans4 = document.getElementsByName("q4")[0].value.trim();
-        let result4 = document.getElementById("result4");
-        if (ans4 === "매몰원가") {
-            result4.innerHTML = "O 정답입니다!";
-            result4.className = "result correct";
-        } else {
-            result4.innerHTML = "X 틀렸습니다. 정답: 매몰원가";
-            result4.className = "result incorrect";
-        }
-    
-        let ans5 = document.getElementsByName("q5")[0].value.trim();
-        let result5 = document.getElementById("result5");
-        if (ans5 === "기회원가") {
-            result5.innerHTML = "O 정답입니다!";
-            result5.className = "result correct";
-        } else {
-            result5.innerHTML = "X 틀렸습니다. 정답: 기회원가";
-            result5.className = "result incorrect";
-        }
-    
-        let ans6 = document.getElementsByName("q6")[0].value.trim();
-        let result6 = document.getElementById("result6");
-        if (ans6 === "비제조원가") {
-            result6.innerHTML = "O 정답입니다!";
-            result6.className = "result correct";
-        } else {
-            result6.innerHTML = "X 틀렸습니다. 정답: 비제조원가";
-            result6.className = "result incorrect";
-        }
-    
-        let ans7 = document.getElementsByName("q7")[0].value.trim();
-        let result7 = document.getElementById("result7");
-        if (ans7 === "제조원가") {
-            result7.innerHTML = "O 정답입니다!";
-            result7.className = "result correct";
-        } else {
-            result7.innerHTML = "X 틀렸습니다. 정답: 제조원가";
-            result7.className = "result incorrect";
-        }
-    
-        let ans8 = document.getElementsByName("q8")[0].value.trim();
-        let result8 = document.getElementById("result8");
-        if (ans8 === "기초원가") {
-            result8.innerHTML = "O 정답입니다!";
-            result8.className = "result correct";
-        } else {
-            result8.innerHTML = "X 틀렸습니다. 정답: 기초원가";
-            result8.className = "result incorrect";
-        }
-    
-        let ans9 = document.getElementsByName("q9")[0].value.trim();
-        let result9 = document.getElementById("result9");
-        if (ans9 === "가공원가") {
-            result9.innerHTML = "O 정답입니다!";
-            result9.className = "result correct";
-        } else {
-            result9.innerHTML = "X 틀렸습니다. 정답: 가공원가";
-            result9.className = "result incorrect";
-        }
-    
-        let ans10 = document.getElementsByName("q10")[0].value.trim();
-        let result10 = document.getElementById("result10");
-        if (ans10 === "추적가능성") {
-            result10.innerHTML = "O 정답입니다!";
-            result10.className = "result correct";
-        } else {
-            result10.innerHTML = "X 틀렸습니다. 정답: 추적가능성";
-            result10.className = "result incorrect";
-        }
-    
-        let ans11 = document.getElementsByName("q11")[0].value.trim();
-        let result11 = document.getElementById("result11");
-        if (ans11 === "원가행태") {
-            result11.innerHTML = "O 정답입니다!";
-            result11.className = "result correct";
-        } else {
-            result11.innerHTML = "X 틀렸습니다. 정답: 원가행태";
-            result11.className = "result incorrect";
-        }
-    
-        let ans12 = document.getElementsByName("q12")[0].value.trim();
-        let result12 = document.getElementById("result12");
-        if (ans12 === "부문") {
-            result12.innerHTML = "O 정답입니다!";
-            result12.className = "result correct";
-        } else {
-            result12.innerHTML = "X 틀렸습니다. 정답: 부문";
-            result12.className = "result incorrect";
-        }
-    
-        let ans13 = document.getElementsByName("q13")[0].value.trim();
-        let result13 = document.getElementById("result13");
-        if (ans13 === "당기총제조") {
-            result13.innerHTML = "O 정답입니다!";
-            result13.className = "result correct";
-        } else {
-            result13.innerHTML = "X 틀렸습니다. 정답: 당기총제조";
-            result13.className = "result incorrect";
-        }
-    
-        let ans14 = document.getElementsByName("q14")[0].value.trim();
-        let result14 = document.getElementById("result14");
-        if (ans14 === "당기제품제조원가") {
-            result14.innerHTML = "O 정답입니다!";
-            result14.className = "result correct";
-        } else {
-            result14.innerHTML = "X 틀렸습니다. 정답: 당기제품제조원가";
-            result14.className = "result incorrect";
-        }
-    
-        let ans15 = document.getElementsByName("q15")[0].value.trim();
-        let result15 = document.getElementById("result15");
-        if (ans15 === "매출원가") {
-            result15.innerHTML = "O 정답입니다!";
-            result15.className = "result correct";
-        } else {
-            result15.innerHTML = "X 틀렸습니다. 정답: 매출원가";
-            result15.className = "result incorrect";
-        }
-    
-        let ans16 = document.getElementsByName("q16")[0].value.trim();
-        let result16 = document.getElementById("result16");
-        if (ans16 === "매출원가") {
-            result16.innerHTML = "O 정답입니다!";
-            result16.className = "result correct";
-        } else {
-            result16.innerHTML = "X 틀렸습니다. 정답: 매출원가";
-            result16.className = "result incorrect";
-        }
-    
-        let ans17 = document.getElementsByName("q17")[0].value.trim();
-        let result17 = document.getElementById("result17");
-        if (ans17 === "원가배분") {
-            result17.innerHTML = "O 정답입니다!";
-            result17.className = "result correct";
-        } else {
-            result17.innerHTML = "X 틀렸습니다. 정답: 원가배분";
-            result17.className = "result incorrect";
-        }
-    
-        let ans18 = document.getElementsByName("q18")[0].value.trim();
-        let result18 = document.getElementById("result18");
-        if (ans18 === "면적") {
-            result18.innerHTML = "O 정답입니다!";
-            result18.className = "result correct";
-        } else {
-            result18.innerHTML = "X 틀렸습니다. 정답: 면적";
-            result18.className = "result incorrect";
-        }
-    
-        let ans19 = document.getElementsByName("q19")[0].value.trim();
-        let result19 = document.getElementById("result19");
-        if (ans19 === "직접") {
-            result19.innerHTML = "O 정답입니다!";
-            result19.className = "result correct";
-        } else {
-            result19.innerHTML = "X 틀렸습니다. 정답: 직접";
-            result19.className = "result incorrect";
-        }
-    
-        let ans20 = document.getElementsByName("q20")[0].value.trim();
-        let result20 = document.getElementById("result20");
-        if (ans20 === "단계") {
-            result20.innerHTML = "O 정답입니다!";
-            result20.className = "result correct";
-        } else {
-            result20.innerHTML = "X 틀렸습니다. 정답: 단계";
-            result20.className = "result incorrect";
-        }
-    
-        let ans21 = document.getElementsByName("q21")[0].value.trim();
-        let result21 = document.getElementById("result21");
-        if (ans21 === "상호") {
-            result21.innerHTML = "O 정답입니다!";
-            result21.className = "result correct";
-        } else {
-            result21.innerHTML = "X 틀렸습니다. 정답: 상호";
-            result21.className = "result incorrect";
-        }
-    
-        let ans22 = document.getElementsByName("q22")[0].value.trim();
-        let result22 = document.getElementById("result22");
-        if (ans22 === "상호단계직접") {
-            result22.innerHTML = "O 정답입니다!";
-            result22.className = "result correct";
-        } else {
-            result22.innerHTML = "X 틀렸습니다. 정답: 상호단계직접";
-            result22.className = "result incorrect";
-        }
-    
-        let ans23 = document.getElementsByName("q23")[0].value.trim();
-        let result23 = document.getElementById("result23");
-        if (ans23 === "이중") {
-            result23.innerHTML = "O 정답입니다!";
-            result23.className = "result correct";
-        } else {
-            result23.innerHTML = "X 틀렸습니다. 정답: 이중";
-            result23.className = "result incorrect";
-        }
-    
-        let ans24 = document.getElementsByName("q24")[0].value.trim();
-        let result24 = document.getElementById("result24");
-        if (ans24 === "개별원가계산") {
-            result24.innerHTML = "O 정답입니다!";
-            result24.className = "result correct";
-        } else {
-            result24.innerHTML = "X 틀렸습니다. 정답: 개별원가계산";
-            result24.className = "result incorrect";
-        }
-    
-        let ans25 = document.getElementsByName("q25")[0].value.trim();
-        let result25 = document.getElementById("result25");
-        if (ans25 === "실제") {
-            result25.innerHTML = "O 정답입니다!";
-            result25.className = "result correct";
-        } else {
-            result25.innerHTML = "X 틀렸습니다. 정답: 실제";
-            result25.className = "result incorrect";
-        }
-    
-        let ans26 = document.getElementsByName("q26")[0].value.trim();
-        let result26 = document.getElementById("result26");
-        if (ans26 === "종합원가") {
-            result26.innerHTML = "O 정답입니다!";
-            result26.className = "result correct";
-        } else {
-            result26.innerHTML = "X 틀렸습니다. 정답: 종합원가";
-            result26.className = "result incorrect";
-        }
-    
-        let ans27 = document.getElementsByName("q27")[0].value.trim();
-        let result27 = document.getElementById("result27");
-        if (ans27 === "감손") {
-            result27.innerHTML = "O 정답입니다!";
-            result27.className = "result correct";
-        } else {
-            result27.innerHTML = "X 틀렸습니다. 정답: 감손";
-            result27.className = "result incorrect";
-        }
-    
-        let ans28 = document.getElementsByName("q28")[0].value.trim();
-        let result28 = document.getElementById("result28");
-        if (ans28 === "직접노무비") {
-            result28.innerHTML = "O 정답입니다!";
-            result28.className = "result correct";
-        } else {
-            result28.innerHTML = "X 틀렸습니다. 정답: 직접노무비";
-            result28.className = "result incorrect";
-        }
-    
-        let ans29 = document.getElementsByName("q29")[0].value.trim();
-        let result29 = document.getElementById("result29");
-        if (ans29 === "준고정비") {
-            result29.innerHTML = "O 정답입니다!";
-            result29.className = "result correct";
-        } else {
-            result29.innerHTML = "X 틀렸습니다. 정답: 준고정비";
-            result29.className = "result incorrect";
-        }
-    
-        let ans30 = document.getElementsByName("q30")[0].value.trim();
-        let result30 = document.getElementById("result30");
-        if (ans30 === "인과") {
-            result30.innerHTML = "O 정답입니다!";
-            result30.className = "result correct";
-        } else {
-            result30.innerHTML = "X 틀렸습니다. 정답: 인과";
-            result30.className = "result incorrect";
-        }
-    
-        let ans31 = document.getElementsByName("q31")[0].value.trim();
-        let result31 = document.getElementById("result31");
-        if (ans31 === "가공원가") {
-            result31.innerHTML = "O 정답입니다!";
-            result31.className = "result correct";
-        } else {
-            result31.innerHTML = "X 틀렸습니다. 정답: 가공원가";
-            result31.className = "result incorrect";
-        }
-    
-        let ans32 = document.getElementsByName("q32")[0].value.trim();
-        let result32 = document.getElementById("result32");
-        if (ans32 === "작업폐물") {
-            result32.innerHTML = "O 정답입니다!";
-            result32.className = "result correct";
-        } else {
-            result32.innerHTML = "X 틀렸습니다. 정답: 작업폐물";
-            result32.className = "result incorrect";
-        }
-    
-        let ans33 = document.getElementsByName("q33")[0].value.trim();
-        let result33 = document.getElementById("result33");
-        if (ans33 === "기초재공품환산량") {
-            result33.innerHTML = "O 정답입니다!";
-            result33.className = "result correct";
-        } else {
-            result33.innerHTML = "X 틀렸습니다. 정답: 기초재공품환산량";
-            result33.className = "result incorrect";
-        }
-    
-        let ans34 = document.getElementsByName("q34")[0].value.trim();
-        let result34 = document.getElementById("result34");
-        if (ans34 === "평균법") {
-            result34.innerHTML = "O 정답입니다!";
-            result34.className = "result correct";
-        } else {
-            result34.innerHTML = "X 틀렸습니다. 정답: 평균법";
-            result34.className = "result incorrect";
-        }
-    
-        let ans35 = document.getElementsByName("q35")[0].value.trim();
-        let result35 = document.getElementById("result35");
-        if (ans35 === "제조원가") {
-            result35.innerHTML = "O 정답입니다!";
-            result35.className = "result correct";
-        } else {
-            result35.innerHTML = "X 틀렸습니다. 정답: 제조원가";
-            result35.className = "result incorrect";
-        }
-    
-        let ans36 = document.getElementsByName("q36")[0].value.trim();
-        let result36 = document.getElementById("result36");
-        if (ans36 === "영업외비용") {
-            result36.innerHTML = "O 정답입니다!";
-            result36.className = "result correct";
-        } else {
-            result36.innerHTML = "X 틀렸습니다. 정답: 영업외비용";
-            result36.className = "result incorrect";
-        }
-    
-        let ans37 = document.getElementsByName("q37")[0].value.trim();
-        let result37 = document.getElementById("result37");
-        if (ans37 === "공손") {
-            result37.innerHTML = "O 정답입니다!";
-            result37.className = "result correct";
-        } else {
-            result37.innerHTML = "X 틀렸습니다. 정답: 공손";
-            result37.className = "result incorrect";
-        }
-    
-    }
-</script>
-
+    <h1>911직업능력교육원 소득세 퀴즈!</h1>
+    <div class="instruction">띄어쓰기 없이 글자수에 맞게 입력하세요!</div>
+    <div id="quiz-container"></div>
+    <button onclick="checkAllAnswers()">제출</button>
 </body>
 </html>
