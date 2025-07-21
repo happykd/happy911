@@ -1,126 +1,279 @@
-
 <!DOCTYPE html>
 <html lang="ko">
 <head>
     <meta charset="UTF-8">
-    <title>911직업능력교육원 소득세 퀴즈</title>
+    <title>911직업능력교육원 원가회계 퀴즈!</title>
     <style>
-        body {
-            font-family: sans-serif;
-            padding: 40px;
-            background-color: #fdfdfd;
-        }
-        .logo {
-            text-align: center;
-            margin-bottom: 30px;
-        }
-        .logo img {
-            height: 100px;
-        }
-        h1 {
-            text-align: center;
-            font-size: 32px;
-            font-weight: bold;
-        }
-        .instruction {
-            text-align: center;
-            font-size: 13px;
-            color: red;
-            margin-bottom: 30px;
-        }
-        .question-block {
-            background: #f4f4f4;
-            padding: 20px;
-            margin: 25px 0;
-            border-radius: 10px;
-        }
-        .question {
-            font-weight: bold;
-            margin-bottom: 10px;
-            font-size: 16px;
-        }
-        input[type="text"] {
-            width: 90%;
-            padding: 10px;
-            font-size: 15px;
-        }
-        button {
-            margin-top: 30px;
-            padding: 10px 25px;
-            font-size: 16px;
-            display: block;
-            margin-left: auto;
-            margin-right: auto;
-        }
-        .result {
-            margin-top: 10px;
-            font-size: 15px;
-            font-weight: bold;
-        }
+        body { font-family: Arial, sans-serif; background: #fff; margin: 40px; }
+        .logo { text-align: center; margin-bottom: 20px; }
+        .logo img { max-height: 100px; }
+        h1 { text-align: center; font-size: 28px; font-weight: bold; }
+        .notice { text-align: center; color: red; font-size: 12px; margin-bottom: 20px; }
+        .quiz-block { background: #f2f2f2; padding: 20px; margin-bottom: 20px; border-radius: 10px; }
+        .quiz-block label { font-weight: bold; display: block; margin-bottom: 10px; }
+        .quiz-block input[type="text"] { width: 100%; padding: 10px; font-size: 16px; }
+        #submit-btn { display: block; margin: 30px auto; padding: 15px 30px; font-size: 18px; font-weight: bold; }
+        .result { font-weight: bold; margin-top: 10px; }
     </style>
-    <script>
-        const questions = [{"question": "조업도의 변동에 따라 총액도 비례적으로 변화하는 원가(직접재료비, 직접노무비)(3글자)", "answer": "변동비"}, {"question": "조업도의 변동과 관계없이 총원가가 일정하게 발생하는 원가(임차료, 감가상각비)(3글자)", "answer": "고정비"}, {"question": "고정비와 변동비의 성격을 동시에 갖고 있는 원가(전기요금, 통신요금)(4글자)", "answer": "준변동비"}, {"question": "특정범위의 조업도 내에서는 총원가 일정, 조업도가 그 범위를 벗어나면 총액이 달라짐.(4글자)", "answer": "준고정비"}, {"question": "이미 발생한 원가로서 회수할 수 없는 원가, 미래의 의사결정에 고려하면 안됨.(4글자)", "answer": "매몰원가"}, {"question": "특정 행위의 선택으로 인해 포기해야 하는 것 중 가장 가치가 큰 것(4글자)", "answer": "기회원가"}, {"question": "판매활동과 일반관리활동에서 발생하는 원가로서 제조활동과 직접적인 관련이 없는 원가(5글자)", "answer": "비제조원가"}, {"question": "제품을 제조하기 위하여 소비된 경제적가치의 소비액(4글자)", "answer": "제조원가"}, {"question": "\"직접재료비＋직접노무비\"= ?(4글자)", "answer": "기초원가"}, {"question": "\"직접노무비＋제조간접비\" = ? 전환원가라고도 함(4글자)", "answer": "가공원가"}, {"question": "직접원가와 간접원가는 제품별로 (    )유무에 따라 구분하는 것(5글자)", "answer": "추적가능성"}, {"question": "변동비와 고정비로 구분은 (     )에 따른 분류이다.(4글자)", "answer": "원가행태"}, {"question": "제조기업의 원가계산흐름은 원가요소별계산 → (    )별계산 → 제품별계산이다.(2글자)", "answer": "부문"}, {"question": "\"직접노무비+직접제조경비+제조간접비\" = (      )비용(5글자)", "answer": "당기총제조"}, {"question": " 당기총제조비용에 기초재공품원가를 가산하고 기말재공품원가를 차감하여 산출한 것을 (      )라 하고 재공품계정 대변에서 제품\n계정 차변에 대체한다.(8글자)", "answer": "당기제품제조원가"}, {"question": "\"기초제품재고액＋당기제품제조원가－기말제품재고액\" = ?(4글자)", "answer": "매출원가"}, {"question": "기초제품, 기말제품, (      )은 제조원가명세서에 표시되지 않는다.(4글자)", "answer": "매출원가"}, {"question": "제조간접비(공통원가)를 여러 제품에 배부하는 과정을 무엇이라 하는가?(4글자)", "answer": "원가배분"}, {"question": "괄호안에 주요 원가배부 기준을 적으시오. \n기계감가상각비(사용시간), 전기요금(전기사용량), 수선비(수선횟수), 복리후생비・노무관리・식당・공장인사관리(종업원수), 구매(주문횟수), 건물감가상각비・공장임차료・재산세(     )(2글자)", "answer": "면적"}, {"question": "가장 단순, 보조부문 상호관계 완전무시하는 보조부문 배부 방법은? (      )배부법(2글자)", "answer": "직접"}, {"question": "우선순위, 보조부문 상호관계 일부고려, 배부 끝난 보조부분 원가를 배분하지 않는 보조부문 배부 방법은? (    )배부법(2글자)", "answer": "단계"}, {"question": "보조부문 간 상호관계 완전고려, 정확, 복잡, 시간과 비용 많이 소요되는 보조무문 배부 방법은? (     )배부법(2글자)", "answer": "상호"}, {"question": "(    )배부법-(    )배부법-(    )배부법, 원가배분방법 정확도를 나타내시오(띄어쓰기없이 적으세요)(6글자)", "answer": "상호단계직접"}, {"question": "보조부문원가를 변동원가와 고정원가로 구분하여 각각 다른 배분기준을 적용하여 배분하는 방법은 (       )배분율법이다(2글자)", "answer": "이중"}, {"question": "다품종 소량생산, 주문생산업종, 조선업, 건설업, 기계제조업, 항공기등에 사용되는 원가계산제도는?(6글자)", "answer": "개별원가계산"}, {"question": "예정배부(정상개별원가계산)액의 계산식은? 배부기준 (     )발생액 × 예정배부율(2글자)", "answer": "실제"}, {"question": "(     )계산은 동종의 제품을 연속적으로 대량 생산하는 업종인 방직업, 정유업, 식품가공 업 등에 적합한 원가계산 방법이다.(4글자)", "answer": "종합원가"}, {"question": "원유를 정제하는 경우, 원재료의 특성상 투입원재료가 100% 완제품으로 생산되지 않는다. 공정의 특성상 완성품이 되기 위하여 부피나 무게 등이 줄어드는 등과 같이 원재료의 감소가 이루어지는 것을 말한다.(2글자)", "answer": "감손"}, {"question": "기본원가이면서 전환원가에 해당되는 것은?      (5글자)", "answer": "직접노무비"}, {"question": "원가행태에 따른 분류 중에서 일정한 범위의 조업도내에서는 총원가가 일정하지만 조업도 구간이 달라지면 총액(총원가)이 달라지는 원가를 무엇이라 하는가?(4글자)", "answer": "준고정비"}, {"question": "제조간접비를 배부하는 기준을 정할 때 제조간접비와 제조부문 사이의 (     )관계를 고려하는 것이 가장 합리적이다.(2글자)", "answer": "인과"}, {"question": "종합원가계산에서는 직접재료원가와 (     )로 구분한다.(4글자)", "answer": "가공원가"}, {"question": "생산과정에서 나오는 원재료의 찌꺼기는?(4글자)", "answer": "작업폐물"}, {"question": "선입선출법에서 완성품환산량 구하는 공식은 \"당기완성수량－(    )＋기말재공품환산량\" 이다.(8글자)", "answer": "기초재공품환산량"}, {"question": "\"완성품환산량 ＝ 당기완성수량＋기말재공품환산량\"의 공식은 어떤 원가흐름을 나타내는 것인가?(3글자)", "answer": "평균법"}, {"question": "공손이 정상적인 원인에 의한 경우에는 (    )로 처리한다.(4글자)", "answer": "제조원가"}, {"question": "비정상적인 원인에 의한 공 손인 경우에는 (    )으로 처리한다.(5글자)", "answer": "영업외비용"}, {"question": "재료의 불량, 작업기술의 미숙, 기계의 정비불량 등으로 가공과정에 실패한 불 합격품은?(2글자)", "answer": "공손"}];
-
-        function shuffle(array) {
-            for (let i = array.length - 1; i > 0; i--) {
-                const j = Math.floor(Math.random() * (i + 1));
-                [array[i], array[j]] = [array[j], array[i]];
-            }
-        }
-
-        function loadQuestions() {
-            shuffle(questions);
-            const container = document.getElementById("quiz-container");
-            container.innerHTML = "";
-
-            questions.forEach((item, index) => {
-                const qBlock = document.createElement("div");
-                qBlock.className = "question-block";
-
-                const questionText = document.createElement("div");
-                questionText.className = "question";
-                questionText.textContent = (index + 1) + ". " + item.question;
-
-                const inputBox = document.createElement("input");
-                inputBox.type = "text";
-                inputBox.id = "input-" + index;
-
-                const resultBox = document.createElement("div");
-                resultBox.className = "result";
-                resultBox.id = "result-" + index;
-
-                qBlock.appendChild(questionText);
-                qBlock.appendChild(inputBox);
-                qBlock.appendChild(resultBox);
-
-                container.appendChild(qBlock);
-            });
-        }
-
-        function checkAllAnswers() {
-            questions.forEach((item, index) => {
-                const input = document.getElementById('input-' + index).value.trim();
-                const result = document.getElementById('result-' + index);
-                if (input === item.answer) {
-                    result.innerHTML = "⭕ 정답입니다!";
-                    result.style.color = "green";
-                } else {
-                    result.innerHTML = "❌ 틀렸습니다. 정답은: " + item.answer;
-                    result.style.color = "red";
-                }
-            });
-        }
-
-        window.onload = loadQuestions;
-    </script>
 </head>
 <body>
     <div class="logo">
         <img src="logo.png" alt="로고">
     </div>
-    <h1>911직업능력교육원 소득세 퀴즈!</h1>
-    <div class="instruction">띄어쓰기 없이 글자수에 맞게 입력하세요!</div>
-    <div id="quiz-container"></div>
-    <button onclick="checkAllAnswers()">제출</button>
+    <h1>911직업능력교육원 원가회계 퀴즈!</h1>
+    <div class="notice">띄어쓰기없이 글자수에 맞게 입력하세요!</div>
+    <form id="quizForm">
+
+        <div class="quiz-block">
+            <label for="q0"><b>1. 제조간접비(공통원가)를 여러 제품에 배부하는 과정을 무엇이라 하는가?(4글자)</b></label>
+            <input type="text" id="q0" name="q0" data-answer="원가배분">
+            <div class="result" id="r0"></div>
+        </div>
+        
+        <div class="quiz-block">
+            <label for="q1"><b>2. "기초제품재고액＋당기제품제조원가－기말제품재고액" = ?(4글자)</b></label>
+            <input type="text" id="q1" name="q1" data-answer="매출원가">
+            <div class="result" id="r1"></div>
+        </div>
+        
+        <div class="quiz-block">
+            <label for="q2"><b>3. 변동비와 고정비로 구분은 (     )에 따른 분류이다.(4글자)</b></label>
+            <input type="text" id="q2" name="q2" data-answer="원가행태">
+            <div class="result" id="r2"></div>
+        </div>
+        
+        <div class="quiz-block">
+            <label for="q3"><b>4. 공손이 정상적인 원인에 의한 경우에는 (    )로 처리한다.(4글자)</b></label>
+            <input type="text" id="q3" name="q3" data-answer="제조원가">
+            <div class="result" id="r3"></div>
+        </div>
+        
+        <div class="quiz-block">
+            <label for="q4"><b>5. 제품을 제조하기 위하여 소비된 경제적가치의 소비액(4글자)</b></label>
+            <input type="text" id="q4" name="q4" data-answer="제조원가">
+            <div class="result" id="r4"></div>
+        </div>
+        
+        <div class="quiz-block">
+            <label for="q5"><b>6.  당기총제조비용에 기초재공품원가를 가산하고 기말재공품원가를 차감하여 산출한 것을 (      )라 하고 재공품계정 대변에서 제품
+계정 차변에 대체한다.(8글자)</b></label>
+            <input type="text" id="q5" name="q5" data-answer="당기제품제조원가">
+            <div class="result" id="r5"></div>
+        </div>
+        
+        <div class="quiz-block">
+            <label for="q6"><b>7. 우선순위, 보조부문 상호관계 일부고려, 배부 끝난 보조부분 원가를 배분하지 않는 보조부문 배부 방법은? (    )배부법(2글자)</b></label>
+            <input type="text" id="q6" name="q6" data-answer="단계">
+            <div class="result" id="r6"></div>
+        </div>
+        
+        <div class="quiz-block">
+            <label for="q7"><b>8. "직접노무비+직접제조경비+제조간접비" = (      )비용(5글자)</b></label>
+            <input type="text" id="q7" name="q7" data-answer="당기총제조">
+            <div class="result" id="r7"></div>
+        </div>
+        
+        <div class="quiz-block">
+            <label for="q8"><b>9. 보조부문 간 상호관계 완전고려, 정확, 복잡, 시간과 비용 많이 소요되는 보조무문 배부 방법은? (     )배부법(2글자)</b></label>
+            <input type="text" id="q8" name="q8" data-answer="상호">
+            <div class="result" id="r8"></div>
+        </div>
+        
+        <div class="quiz-block">
+            <label for="q9"><b>10. 재료의 불량, 작업기술의 미숙, 기계의 정비불량 등으로 가공과정에 실패한 불 합격품은?(2글자)</b></label>
+            <input type="text" id="q9" name="q9" data-answer="공손">
+            <div class="result" id="r9"></div>
+        </div>
+        
+        <div class="quiz-block">
+            <label for="q10"><b>11. 종합원가계산에서는 직접재료원가와 (     )로 구분한다.(4글자)</b></label>
+            <input type="text" id="q10" name="q10" data-answer="가공원가">
+            <div class="result" id="r10"></div>
+        </div>
+        
+        <div class="quiz-block">
+            <label for="q11"><b>12. 특정 행위의 선택으로 인해 포기해야 하는 것 중 가장 가치가 큰 것(4글자)</b></label>
+            <input type="text" id="q11" name="q11" data-answer="기회원가">
+            <div class="result" id="r11"></div>
+        </div>
+        
+        <div class="quiz-block">
+            <label for="q12"><b>13. 선입선출법에서 완성품환산량 구하는 공식은 "당기완성수량－(    )＋기말재공품환산량" 이다.(8글자)</b></label>
+            <input type="text" id="q12" name="q12" data-answer="기초재공품환산량">
+            <div class="result" id="r12"></div>
+        </div>
+        
+        <div class="quiz-block">
+            <label for="q13"><b>14. 예정배부(정상개별원가계산)액의 계산식은? 배부기준 (     )발생액 × 예정배부율(2글자)</b></label>
+            <input type="text" id="q13" name="q13" data-answer="실제">
+            <div class="result" id="r13"></div>
+        </div>
+        
+        <div class="quiz-block">
+            <label for="q14"><b>15. "완성품환산량 ＝ 당기완성수량＋기말재공품환산량"의 공식은 어떤 원가흐름을 나타내는 것인가?(3글자)</b></label>
+            <input type="text" id="q14" name="q14" data-answer="평균법">
+            <div class="result" id="r14"></div>
+        </div>
+        
+        <div class="quiz-block">
+            <label for="q15"><b>16. 다품종 소량생산, 주문생산업종, 조선업, 건설업, 기계제조업, 항공기등에 사용되는 원가계산제도는?(6글자)</b></label>
+            <input type="text" id="q15" name="q15" data-answer="개별원가계산">
+            <div class="result" id="r15"></div>
+        </div>
+        
+        <div class="quiz-block">
+            <label for="q16"><b>17. 제조기업의 원가계산흐름은 원가요소별계산 → (    )별계산 → 제품별계산이다.(2글자)</b></label>
+            <input type="text" id="q16" name="q16" data-answer="부문">
+            <div class="result" id="r16"></div>
+        </div>
+        
+        <div class="quiz-block">
+            <label for="q17"><b>18. 직접원가와 간접원가는 제품별로 (    )유무에 따라 구분하는 것(5글자)</b></label>
+            <input type="text" id="q17" name="q17" data-answer="추적가능성">
+            <div class="result" id="r17"></div>
+        </div>
+        
+        <div class="quiz-block">
+            <label for="q18"><b>19. 고정비와 변동비의 성격을 동시에 갖고 있는 원가(전기요금, 통신요금)(4글자)</b></label>
+            <input type="text" id="q18" name="q18" data-answer="준변동비">
+            <div class="result" id="r18"></div>
+        </div>
+        
+        <div class="quiz-block">
+            <label for="q19"><b>20. 특정범위의 조업도 내에서는 총원가 일정, 조업도가 그 범위를 벗어나면 총액이 달라짐.(4글자)</b></label>
+            <input type="text" id="q19" name="q19" data-answer="준고정비">
+            <div class="result" id="r19"></div>
+        </div>
+        
+        <div class="quiz-block">
+            <label for="q20"><b>21. 판매활동과 일반관리활동에서 발생하는 원가로서 제조활동과 직접적인 관련이 없는 원가(5글자)</b></label>
+            <input type="text" id="q20" name="q20" data-answer="비제조원가">
+            <div class="result" id="r20"></div>
+        </div>
+        
+        <div class="quiz-block">
+            <label for="q21"><b>22. 원가행태에 따른 분류 중에서 일정한 범위의 조업도내에서는 총원가가 일정하지만 조업도 구간이 달라지면 총액(총원가)이 달라지는 원가를 무엇이라 하는가?(4글자)</b></label>
+            <input type="text" id="q21" name="q21" data-answer="준고정비">
+            <div class="result" id="r21"></div>
+        </div>
+        
+        <div class="quiz-block">
+            <label for="q22"><b>23. (    )배부법-(    )배부법-(    )배부법, 원가배분방법 정확도를 나타내시오(띄어쓰기없이 적으세요)(6글자)</b></label>
+            <input type="text" id="q22" name="q22" data-answer="상호단계직접">
+            <div class="result" id="r22"></div>
+        </div>
+        
+        <div class="quiz-block">
+            <label for="q23"><b>24. 조업도의 변동과 관계없이 총원가가 일정하게 발생하는 원가(임차료, 감가상각비)(3글자)</b></label>
+            <input type="text" id="q23" name="q23" data-answer="고정비">
+            <div class="result" id="r23"></div>
+        </div>
+        
+        <div class="quiz-block">
+            <label for="q24"><b>25. "직접재료비＋직접노무비"= ?(4글자)</b></label>
+            <input type="text" id="q24" name="q24" data-answer="기초원가">
+            <div class="result" id="r24"></div>
+        </div>
+        
+        <div class="quiz-block">
+            <label for="q25"><b>26. (     )계산은 동종의 제품을 연속적으로 대량 생산하는 업종인 방직업, 정유업, 식품가공 업 등에 적합한 원가계산 방법이다.(4글자)</b></label>
+            <input type="text" id="q25" name="q25" data-answer="종합원가">
+            <div class="result" id="r25"></div>
+        </div>
+        
+        <div class="quiz-block">
+            <label for="q26"><b>27. 괄호안에 주요 원가배부 기준을 적으시오. 
+기계감가상각비(사용시간), 전기요금(전기사용량), 수선비(수선횟수), 복리후생비・노무관리・식당・공장인사관리(종업원수), 구매(주문횟수), 건물감가상각비・공장임차료・재산세(     )(2글자)</b></label>
+            <input type="text" id="q26" name="q26" data-answer="면적">
+            <div class="result" id="r26"></div>
+        </div>
+        
+        <div class="quiz-block">
+            <label for="q27"><b>28. 보조부문원가를 변동원가와 고정원가로 구분하여 각각 다른 배분기준을 적용하여 배분하는 방법은 (       )배분율법이다(2글자)</b></label>
+            <input type="text" id="q27" name="q27" data-answer="이중">
+            <div class="result" id="r27"></div>
+        </div>
+        
+        <div class="quiz-block">
+            <label for="q28"><b>29. 기본원가이면서 전환원가에 해당되는 것은?      (5글자)</b></label>
+            <input type="text" id="q28" name="q28" data-answer="직접노무비">
+            <div class="result" id="r28"></div>
+        </div>
+        
+        <div class="quiz-block">
+            <label for="q29"><b>30. 생산과정에서 나오는 원재료의 찌꺼기는?(4글자)</b></label>
+            <input type="text" id="q29" name="q29" data-answer="작업폐물">
+            <div class="result" id="r29"></div>
+        </div>
+        
+        <div class="quiz-block">
+            <label for="q30"><b>31. 가장 단순, 보조부문 상호관계 완전무시하는 보조부문 배부 방법은? (      )배부법(2글자)</b></label>
+            <input type="text" id="q30" name="q30" data-answer="직접">
+            <div class="result" id="r30"></div>
+        </div>
+        
+        <div class="quiz-block">
+            <label for="q31"><b>32. 비정상적인 원인에 의한 공 손인 경우에는 (    )으로 처리한다.(5글자)</b></label>
+            <input type="text" id="q31" name="q31" data-answer="영업외비용">
+            <div class="result" id="r31"></div>
+        </div>
+        
+        <div class="quiz-block">
+            <label for="q32"><b>33. "직접노무비＋제조간접비" = ? 전환원가라고도 함(4글자)</b></label>
+            <input type="text" id="q32" name="q32" data-answer="가공원가">
+            <div class="result" id="r32"></div>
+        </div>
+        
+        <div class="quiz-block">
+            <label for="q33"><b>34. 조업도의 변동에 따라 총액도 비례적으로 변화하는 원가(직접재료비, 직접노무비)(3글자)</b></label>
+            <input type="text" id="q33" name="q33" data-answer="변동비">
+            <div class="result" id="r33"></div>
+        </div>
+        
+        <div class="quiz-block">
+            <label for="q34"><b>35. 기초제품, 기말제품, (      )은 제조원가명세서에 표시되지 않는다.(4글자)</b></label>
+            <input type="text" id="q34" name="q34" data-answer="매출원가">
+            <div class="result" id="r34"></div>
+        </div>
+        
+        <div class="quiz-block">
+            <label for="q35"><b>36. 제조간접비를 배부하는 기준을 정할 때 제조간접비와 제조부문 사이의 (     )관계를 고려하는 것이 가장 합리적이다.(2글자)</b></label>
+            <input type="text" id="q35" name="q35" data-answer="인과">
+            <div class="result" id="r35"></div>
+        </div>
+        
+        <div class="quiz-block">
+            <label for="q36"><b>37. 원유를 정제하는 경우, 원재료의 특성상 투입원재료가 100% 완제품으로 생산되지 않는다. 공정의 특성상 완성품이 되기 위하여 부피나 무게 등이 줄어드는 등과 같이 원재료의 감소가 이루어지는 것을 말한다.(2글자)</b></label>
+            <input type="text" id="q36" name="q36" data-answer="감손">
+            <div class="result" id="r36"></div>
+        </div>
+        
+        <div class="quiz-block">
+            <label for="q37"><b>38. 이미 발생한 원가로서 회수할 수 없는 원가, 미래의 의사결정에 고려하면 안됨.(4글자)</b></label>
+            <input type="text" id="q37" name="q37" data-answer="매몰원가">
+            <div class="result" id="r37"></div>
+        </div>
+        
+        <button type="button" id="submit-btn" onclick="checkAnswers()">제출</button>
+    </form>
+
+    <script>
+        function checkAnswers() {
+            const form = document.getElementById('quizForm');
+            const inputs = form.querySelectorAll('input[type="text"]');
+            inputs.forEach((input, index) => {
+                const userAnswer = input.value.trim();
+                const correctAnswer = input.dataset.answer.trim();
+                const result = document.getElementById('r' + index);
+                if (userAnswer === correctAnswer) {
+                    result.innerHTML = "✅ 정답입니다!";
+                    result.style.color = "green";
+                } else {
+                    result.innerHTML = "❌ 틀렸습니다. 정답은: " + correctAnswer;
+                    result.style.color = "red";
+                }
+            });
+        }
+    </script>
 </body>
 </html>
